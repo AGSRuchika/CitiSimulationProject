@@ -1,0 +1,319 @@
+viewprofile.ts:
+// this.profileService.getAllProfileNames().subscribe((names) => {
+    //   this.profileNames = names;
+    // });
+
+    // this.profileService.getAllProfileEmails().subscribe((Emails) => {
+    //   this.profileEmails = Emails;
+    // });
+  // trackByProfileName(index: number, profileEmail: string): string {
+  //   return profileEmail;
+  // }
+
+-----------------
+profile.service.ts:
+  // getAllProfileNames(): Observable<string[]> {
+  //   const completeUrl = 'http://localhost:8084/api/profiles/name';
+  //   return this.http.get<string[]>(completeUrl);
+  // }
+
+  // getAllProfileEmails(): Observable<string[]> {
+  //   const completeUrl = 'http://localhost:8084/api/profiles/email';
+  //   return this.http.get<string[]>(completeUrl);
+  // }
+// getProfileByName(profileName: string): Observable<any> {
+  //   const completeUrl = this.apiUrl + profileName;
+  //   return this.http.get(completeUrl);
+  // }
+  // getProfile(profileId: string): Observable<any> {
+  //   const completeUrl = this.apiUrl1 + profileId;
+  //   return this.http.get(completeUrl);
+  // }
+------------------------------
+->ProfileServiceImpl:
+//    @Override
+//    public ProfileDTO getProfileById(Long id) {
+//        Optional<Profile> optionalProfile = profileRepository.findById(id);
+//        return optionalProfile.map(profile -> modelMapper.map(profile, ProfileDTO.class)).orElse(null);
+//    }
+
+ 
+//    public ProfileDTO getProfileByName(String name) {
+//        Profile profile = profileRepository.findByName(name);
+//
+//        if (profile != null) {
+//        	ProfileDTO profileDTO = modelMapper.map(profile, ProfileDTO.class);
+//            return profileDTO;
+//        } else {
+//            return null;
+//        }
+//    }
+
+//    @Override
+//    public Set<String> getAllProfileEmails() {
+//        List<Profile> profiles = profileRepository.findAll();
+//        if (!profiles.isEmpty()) {
+//        	Set<String> profileEmails = profiles.stream()
+//                    .map(Profile::getEmail) 
+//                    .collect(Collectors.toSet());
+//            return profileEmails;
+//        } else {
+//            return new HashSet<>();
+//        }
+//    }
+
+----------------
+
+->ProfileRepository:
+//	Profile findByName(String name);
+
+------------------
+
+->ProfileController:
+//    @GetMapping(path = Constants.API_PROFILE_BY_NAME )
+//    public ResponseEntity<ProfileDTO> getProfileByName(@PathVariable String name) {
+//        ProfileDTO profile = profileService.getProfileByName(name);
+//        if (profile != null) {
+//            return new ResponseEntity<>(profile, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+//    @GetMapping(Constants.API_PROFILE_NAMES)
+//    public ResponseEntity<List<String>> getAllProfileNames() {
+//        List<String> names = profileService.getAllProfileNames();
+//        if (!names.isEmpty()) {
+//            return new ResponseEntity<>(names, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//    }
+    
+//    @GetMapping(Constants.API_PROFILE_EMAILS)
+//    public ResponseEntity<Set<String>> getAllProfileEmails() {
+//        Set<String> emails = profileService.getAllProfileEmails();
+//        if (!emails.isEmpty()) {
+//            return new ResponseEntity<>(emails, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//    }
+
+//    @GetMapping(Constants.API_PROFILE_BY_ID)
+//    public ResponseEntity<ProfileDTO> getProfile(@PathVariable Long id) {
+//        ProfileDTO profile = profileService.getProfileById(id);
+//        if (profile != null) {
+//            return new ResponseEntity<>(profile, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+-----------------------------
+->ProfileService:
+//	Set<String> getAllProfileEmails();
+
+//	ProfileDTO getProfileByName(String name);
+
+//    ProfileDTO getProfileById(Long id);
+
+---------------------
+
+->ProfileControllerTest:
+    
+@Test
+    public void testGetProfileById_Success() {
+        Long profileId = 1L; // Replace with an existing profile ID
+        ProfileDTO existingProfileDTO = new ProfileDTO(); // Create a sample existing profile DTO
+
+        when(profileService.getProfileById(profileId)).thenReturn(existingProfileDTO);
+
+        ResponseEntity<ProfileDTO> response = profileController.getProfile(profileId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(existingProfileDTO, response.getBody());
+    }
+    @Test
+    public void testGetProfileById_NotFound() {
+        Long profileId = 2L; // Replace with a non-existing profile ID
+
+        when(profileService.getProfileById(profileId)).thenReturn(null);
+
+        ResponseEntity<ProfileDTO> response = profileController.getProfile(profileId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
+    @Test
+    public void testGetProfileByName_Success() {
+        String name = "User"; // Replace with an existing name
+        ProfileDTO existingProfileDTO = new ProfileDTO(); // Create a sample existing profile DTO
+
+        when(profileService.getProfileByName(name)).thenReturn(existingProfileDTO);
+
+        ResponseEntity<ProfileDTO> response = profileController.getProfileByName(name);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(existingProfileDTO, response.getBody());
+    }
+
+    @Test
+    public void testGetProfileByName_NotFound() {
+        String name = "Nonexistent User"; // Replace with a non-existing name
+
+        when(profileService.getProfileByName(name)).thenReturn(null);
+
+        ResponseEntity<ProfileDTO> response = profileController.getProfileByName(name);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
+    @Test
+    public void testGetAllProfileEmails_Success() {
+        Set<String> profileEmails = new HashSet<>();
+        profileEmails.add("user1@gmail.com");
+        profileEmails.add("user2@gmail.com");
+
+        when(profileService.getAllProfileEmails()).thenReturn(profileEmails);
+
+        ResponseEntity<Set<String>> response = profileController.getAllProfileEmails();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(profileEmails, response.getBody());
+    }
+
+    @Test
+    public void testGetAllProfileEmails_NoContent() {
+        Set<String> profileEmails = new HashSet<>();
+
+        when(profileService.getAllProfileEmails()).thenReturn(profileEmails);
+
+        ResponseEntity<Set<String>> response = profileController.getAllProfileEmails();
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+
+
+
+    @Test
+    public void testGetAllProfileNames_Success() {
+        List<String> profileNames = new ArrayList<>();
+        profileNames.add("user1");
+        profileNames.add("user2");
+
+        when(profileService.getAllProfileNames()).thenReturn(profileNames);
+
+        ResponseEntity<List<String>> response = profileController.getAllProfileNames();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(profileNames, response.getBody());
+    }
+
+    @Test
+    public void testGetAllProfileNames_NoContent() {
+        List<String> profileNames = new ArrayList<>();
+
+        when(profileService.getAllProfileNames()).thenReturn(profileNames);
+
+        ResponseEntity<List<String>> response = profileController.getAllProfileNames();
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+
+-----------------------
+
+->ProfileServiceimpltest.java:
+
+    @Test
+    public void testGetProfileById_ExistingProfile() {
+        Long id = 1L;
+        ProfileDTO expectedProfileDTO = new ProfileDTO();
+        Profile expectedProfileEntity = new Profile();
+
+        when(profileRepository.findById(id)).thenReturn(Optional.of(expectedProfileEntity));
+        when(modelMapper.map(expectedProfileEntity, ProfileDTO.class)).thenReturn(expectedProfileDTO);
+
+        ProfileDTO result = profileService.getProfileById(id);
+
+        assertEquals(expectedProfileDTO, result);
+    }
+
+    @Test
+    public void testGetProfileById_NonExistingProfile() {
+        Long id = 1L;
+
+        when(profileRepository.findById(id)).thenReturn(Optional.empty());
+
+        ProfileDTO result = profileService.getProfileById(id);
+
+        assertNull(result);
+    }
+
+
+
+
+    @Test
+    public void testGetAllProfileEmails_NotEmpty() {
+        List<Profile> profiles = new ArrayList<>();
+        Profile profile1 = new Profile();
+        profile1.setEmail("email1@gmail.com");
+        Profile profile2 = new Profile();
+        profile2.setEmail("email2@gmail.com");
+        profiles.add(profile1);
+        profiles.add(profile2);
+
+        when(profileRepository.findAll()).thenReturn(profiles);
+
+        Set<String> result = profileService.getAllProfileEmails();
+
+        assertEquals(2, result.size());
+        assertTrue(result.contains("email1@gmail.com"));
+        assertTrue(result.contains("email2@gmail.com"));
+    }
+
+    @Test
+    public void testGetAllProfileEmails_Empty() {
+        List<Profile> profiles = new ArrayList<>();
+
+        when(profileRepository.findAll()).thenReturn(profiles);
+
+        Set<String> result = profileService.getAllProfileEmails();
+
+        assertEquals(0, result.size());
+    }
+
+
+
+
+    @Test
+    public void testGetProfileByName_ExistingProfile() {
+        String name = "User";
+        ProfileDTO expectedProfileDTO = new ProfileDTO();
+        Profile expectedProfileEntity = new Profile();
+
+        when(profileRepository.findByName(name)).thenReturn(expectedProfileEntity);
+        when(modelMapper.map(expectedProfileEntity, ProfileDTO.class)).thenReturn(expectedProfileDTO);
+
+        ProfileDTO result = profileService.getProfileByName(name);
+
+        assertEquals(expectedProfileDTO, result);
+    }
+
+    @Test
+    public void testGetProfileByName_NonExistingProfile() {
+        String name = "Nonexistent Name";
+
+        when(profileRepository.findByName(name)).thenReturn(null);
+
+        ProfileDTO result = profileService.getProfileByName(name);
+
+        assertNull(result);
+    }
+
+
+---------------------
+

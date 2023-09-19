@@ -1,0 +1,89 @@
+<app-header></app-header>
+<div class="full">
+<div class="create-profile">
+  <div class="popup">
+  <h2>Profile</h2>
+  <div class="profile-section">
+    <div class="profile-details">
+      <div class="profile-field">
+        <span class="field-label"><b>Name:&nbsp;&nbsp;</b></span>
+        <span class="field-value">{{ profile.name }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label"><b>Email:&nbsp;&nbsp;</b></span>
+        <span class="field-value">{{ profile.email }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label"><b>Phone Number:&nbsp;&nbsp;</b></span>
+        <span class="field-value">{{ profile.phone }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label"><b>Address:&nbsp;&nbsp;</b></span>
+        <span class="field-value">{{ profile.address }}</span>
+      </div>
+    </div>
+    <div class="profile-section">
+      <h3>Educational Background</h3>
+      <div *ngFor="let education of profile.education; let i = index" class="education-entry">
+        <div class="education-field">
+          <span class="field-label"><b>College Name:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ education.college }}</span>
+        </div>
+        <div class="education-field">
+          <span class="field-label"><b>Studied From:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ education.studyFrom }}</span>
+        </div>
+        <div class="education-field">
+          <span class="field-label"><b>Studied To:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ education.studyTo }}</span>
+        </div>
+        <div class="education-field">
+          <span class="field-label"><b>Department:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ education.department }}</span>
+        </div>
+        <div class="education-field">
+          <span class="field-label"><b>Percentage:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ education.percentage }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="profile-section">
+      <h3>Professional Experience</h3>
+      <div *ngFor="let experience of profile.experience; let i = index" class="experience-entry">
+        <div class="experience-field">
+          <span class="field-label"><b>Company Name:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ experience.company }}</span>
+        </div>
+        <div class="experience-field">
+          <span class="field-label"><b>Occupation:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ experience.occupation }}</span>
+        </div>
+        <div class="experience-field">
+          <span class="field-label"><b>Worked From:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ experience.workFrom }}</span>
+        </div>
+        <div class="experience-field">
+          <span class="field-label"><b>Worked To:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ experience.workTo }}</span>
+        </div>
+        <div class="experience-field">
+          <span class="field-label"><b>Job Description:&nbsp;&nbsp;</b></span>
+          <span class="field-value">{{ experience.jobDescription }}</span>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="profile-field">
+      <span class="field-label"><b>Skill:&nbsp;&nbsp;</b></span>
+      <span class="field-value">{{ profile.skill }}</span>
+    </div>
+    <br>
+    <div class="profile-field">
+      <span class="field-label"><b>Extracurricular:&nbsp;&nbsp;</b></span>
+      <span class="field-value">{{ profile.activity }}</span>
+    </div>
+  </div>
+  <button (click)="close()">Back</button>
+</div>
+</div>
+</div>

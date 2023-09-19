@@ -1,0 +1,196 @@
+->dashboard.component.html:
+<div class="container">
+<app-header></app-header>
+<div class="dashboard-container" *ngIf="employeeData">
+  <p>Congratulations on joining our platform! This profile builder is a comprehensive tool designed to help you create and manage your professional online presence. It's your gateway to showcasing your skills, experiences, and achievements to potential employers, colleagues, and the world.</p>
+  <br>
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+
+    <mat-tab-group mat-align-tabs="start" mat-tab-header-position="left">
+      <mat-tab label="Create Your User Profile">
+        <ng-template mat-tab-label>
+          <mat-icon>person</mat-icon> Create Profile
+        </ng-template>
+        <div class="profile-builder">
+          <ul>
+            <li>Provide personal details such as your Date of Birth, Address, and Contact Number.</li>
+            <li>Highlight your educational journey, including Bachelor's and Postgraduate qualifications.</li>
+            <li>Showcase your work experience with Company Name, Occupation, Work Period and Projects.</li>
+            <li>List your skillset, allowing you to emphasize your strengths.</li>
+            <li>Share your LinkedIn and GitHub profiles, along with any other relevant URLs.</li>
+            <li>Highlight your extracurricular activities and interests.</li>
+          </ul>
+          <button mat-button color="primary" class="button" (click)="create()"><h2>Click Here!</h2></button>
+          <!-- Add form elements for profile creation here -->
+        </div>
+      </mat-tab>
+      <mat-tab label="Edit Your User Profile">
+        <ng-template mat-tab-label>
+          <mat-icon>edit</mat-icon> Edit Profile
+        </ng-template>
+        <div class="profile-builder">
+          <ul>
+            <li>Regularly update your profile to reflect your latest accomplishments and experiences.</li>
+            <li>Ensure all information is accurate and up-to-date to make the best impression.</li>
+          </ul>
+          <button mat-button color="primary" class="button" (click)="edit()"><h2>Click Here!</h2></button>
+          <!-- Add form elements for profile creation here -->
+        </div>
+      </mat-tab>
+      <mat-tab label="View Your Profile">
+        <ng-template mat-tab-label>
+          <mat-icon>visibility</mat-icon> View Profile
+        </ng-template>
+        <div class="view-profile">
+          <ul>
+            <li>Easily access and review your complete profile at any time.</li>
+            <li>Download your profile as a PDF to share with potential employers or colleagues.</li>
+          </ul>
+          <button mat-button color="primary" class="button" (click)="view()"><h2>Click Here!</h2></button>
+          <!-- Add profile display and download button here -->
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+  <br><br>
+  <div class="footer" style="font-size: large;">Thank you for choosing our platform to build and manage your professional profile. We wish you success in your career endeavors!</div>
+</div>
+</div>
+
+->dashboard.component.ts:
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent implements OnInit {
+  employeeData: any; // Define a variable to store employee data
+
+  constructor(private http: HttpClient,private router:Router) { }
+
+  ngOnInit(): void {
+    const baseUrl = 'http://localhost:8085/ProfileBuilder'; // Replace with your actual base URL
+const email = localStorage.getItem('user_email');
+const backendApiUrl = `${baseUrl}/employee/${email}`;
+
+// Make the HTTP request to fetch employee data
+this.http.get(backendApiUrl).subscribe((data: any) => {
+  this.employeeData = data;
+});
+}
+
+create(){
+  this.router.navigateByUrl("/create");
+}
+
+view(){
+  this.router.navigateByUrl("/view");
+}
+
+edit(){
+  this.router.navigateByUrl("/edit");
+}
+
+}
+
+->dashboard.component.scss:
+/* Add this SCSS code to your dashboard.component.scss file */
+
+/* Style the dashboard container */
+.dashboard-container {
+  text-align: center;
+  padding: 20px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 1px;
+    margin-top: -5px;
+  }
+
+  p {
+    text-align: left;
+  }
+}
+
+/* Style the profile-builder and view-profile sections */
+.profile-builder,
+.view-profile {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  text-align: left;
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+/* Style the mat-tab-group container */
+mat-tab-group {
+  background-color: #f0f0f0; /* Set the background color */
+}
+
+/* Style the tabs */
+mat-tab-label {
+  background-color: #007bff; /* Set the tab background color */
+  color: white; /* Set the tab text color */
+  border-radius: 0; /* Remove border radius */
+  padding: 10px 20px; /* Adjust tab padding */
+  cursor: pointer; /* Add pointer cursor on hover */
+
+  /* Hover effect */
+  &:hover {
+    background-color: #0056b3; /* Change background color on hover */
+  }
+}
+
+/* Add a line separator between tabs */
+::ng-deep.mat-tab-group.mat-primary .mat-tab-label {
+  border-right: 1px solid #ddd; /* Add a vertical line separator */
+}
+
+/* Style the selected tab */
+mat-tab-label.mat-tab-label-active {
+  background-color: #0056b3; /* Change background color of the active tab */
+  font-weight: bold; /* Make the active tab text bold */
+  color: white; /* Set the active tab text color */
+}
+
+/* Style the tab content */
+mat-tab-body {
+  padding: 20px; /* Adjust content padding */
+  border: 1px solid #ddd; /* Add border to content */
+  border-radius: 5px; /* Add border radius to content */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow to content */
+}
+
+mat-tab-body.mat-tab-body-active {
+  background-color: green !important; /* Set the background color of the active tab content */
+}
+
+.button{
+  margin-left: 10px;
+}
+
+.container{
+  height: auto;
+  border: 1px solid black;
+}

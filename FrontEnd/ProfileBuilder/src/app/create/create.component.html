@@ -1,0 +1,89 @@
+<div class="full">
+<div class="create-profile">
+  <h2>Create Profile</h2>
+  <form #form="ngForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="profile.name" required #nameInput="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="profile.email" required #emailInput="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" [(ngModel)]="profile.phone" required>
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" [(ngModel)]="profile.address" required></textarea>
+    </div>
+    <div class="education">
+      <h3>Educational Background</h3>
+      <div *ngFor="let education of profile.education; let i = index">
+        <div class="form-group">
+          <label for="college{{i}}">College Name:</label>
+          <input type="text" id="college{{i}}" name="college{{i}}" [(ngModel)]="education.college" required>
+        </div>
+        <div class="form-group">
+          <label class="date" for="studyFrom{{i}}">Studied From:</label>
+          <input type="text" class="datetext" id="studyFrom{{i}}" name="studyFrom{{i}}" [(ngModel)]="education.studyFrom" required>
+        </div>
+        <div class="form-group">
+          <label class="date" for="studyTo{{i}}">Studied To:</label>
+          <input type="text" class="datetext" id="studyTo{{i}}" name="studyTo{{i}}" [(ngModel)]="education.studyTo" required>
+        </div>
+        <div class="form-group">
+          <label for="department{{i}}">Department:</label>
+          <input type="text" id="department{{i}}" name="department{{i}}" [(ngModel)]="education.department" required>
+        </div>
+        <div class="form-group">
+          <label for="percentage{{i}}">Percentage:</label>
+          <input type="text" id="percentage{{i}}" name="percentage{{i}}" [(ngModel)]="education.percentage" required>
+        </div>
+        <button class="remove" (click)="removeEducation(i)">Remove</button>
+      </div>
+      <button (click)="addEducation()">Add Education</button>
+    </div>
+    <div class="experience">
+      <h3>Professional Experience</h3>
+      <div *ngFor="let experience of profile.experience; let i = index">
+        <div class="form-group">
+          <label for="company{{i}}">Company Name:</label>
+          <input type="text" id="company{{i}}" name="company{{i}}" [(ngModel)]="experience.company" required>
+        </div>
+        <div class="form-group">
+          <label for="occupation{{i}}">Occupation:</label>
+          <input type="text" id="occupation{{i}}" name="occupation{{i}}" [(ngModel)]="experience.occupation" required>
+        </div>
+        <div class="form-group">
+          <label class="date" for="workFrom{{i}}">Worked From:</label>
+          <input type="text" class="datetext" id="workFrom{{i}}" name="workFrom{{i}}" [(ngModel)]="experience.workFrom" required>
+        </div>
+        <div class="form-group">
+          <label class="date" for="workTo{{i}}">Worked To:</label>
+          <input type="text" class="datetext" id="workTo{{i}}" name="workTo{{i}}" [(ngModel)]="experience.workTo" required>
+        </div>
+        <div class="form-group">
+          <label for="jobDescription{{i}}">Job Description:</label>
+          <textarea id="jobDescription{{i}}" name="jobDescription{{i}}" [(ngModel)]="experience.jobDescription" required></textarea>
+        </div>
+        <button class="remove" (click)="removeExperience(i)">Remove</button>
+      </div>
+      <button (click)="addExperience()">Add Experience</button>
+    </div>
+    <br>
+    <div class="form-group">
+      <label for="skill">Skill:</label>
+      <textarea id="skill" name="skill" [(ngModel)]="profile.skill" required></textarea>
+    </div>
+    <br>
+    <div class="form-group">
+      <label for="skill">ExtraCurricular:</label>
+      <textarea id="activity" name="activity" [(ngModel)]="profile.activity" required></textarea>
+    </div>
+    <button type="submit" [disabled]="!form.valid" (click)="onSubmit()">Submit</button>
+    <button type="submit" (click)="Back()">Back</button>
+  </form>
+  </div>
+</div>

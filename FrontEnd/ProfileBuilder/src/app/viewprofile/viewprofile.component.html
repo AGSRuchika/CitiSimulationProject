@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="bg-img">
+  <div [ngClass]="{'blur-background': isDialogOpen}">
+    <ng-container *ngIf="profiles.length > 0">
+      <div class="table-container">
+      <table class="small-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>View</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let profile of profiles">
+            <td>{{ profile.name }}</td>
+            <td>{{ profile.email }}</td>
+            <td>
+              <button (click)="openDialog(profile.email)"><mat-icon>visibility</mat-icon></button>
+            </td>
+            <td>
+              <button (click)="deleteProfileDaialog(profile.email)"><mat-icon>delete</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="back" (click)="back()">Back</button>
+    </div>
+    </ng-container>
+  </div>
+</div>

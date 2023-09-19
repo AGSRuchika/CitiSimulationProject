@@ -1,0 +1,93 @@
+.card-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+}
+
+.profile-card {
+  text-align: center;
+  margin-top: 30px;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 30px;
+  margin-left: 30px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  color: white;
+  z-index: 2;
+}
+
+.profile-card:hover {
+  transform: scale(1.15);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+  font-size: 64px;
+  color: #007bff;
+}
+
+mat-card-title {
+  font-size: 24px;
+  margin-top: 10px;
+  color: white;
+}
+
+mat-card-subtitle {
+  font-size: 18px;
+  color: #777;
+  color: white;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+mat-card-actions button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+mat-card-actions button:hover {
+  background-color: #0056b3;
+}
+
+.button {
+  border: transparent;
+  font-size: 100%;
+}
+
+.para {
+  text-align: center;
+  color: white;
+}
+
+.full {
+  height: 100vh;
+  background-image: url("../../assets/bgcopy.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: white;
+}
+
+.full:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin-top: 50px;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}

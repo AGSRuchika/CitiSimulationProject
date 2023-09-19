@@ -1,0 +1,25 @@
+<div class="bg-img">
+  <div class="content">
+    <header>User Profile Builder</header>
+    <header style="font-size: x-large;">Login Form</header>
+    <form>
+      <mat-form-field class="field">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" id="username" required>
+      </mat-form-field>
+      <mat-form-field class="field space">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" id="password" required>
+        <mat-icon matPrefix>lock</mat-icon>
+        <button mat-button matSuffix (click)="togglePassword()">
+          {{ showPassword ? 'HIDE' : 'SHOW' }}
+        </button>
+      </mat-form-field>
+      <div class="field">
+        <button mat-raised-button color="primary" type="button" (click)="Login()">LOGIN</button>
+      </div>
+    </form>
+    <div class="signup">Sign In using Admin Account</div>
+  </div>
+</div>

@@ -1,0 +1,298 @@
+->login.component.html:
+<div class="container-fluid">
+<div class="bgimg">
+<mat-card class="auth-card">
+  <div class="auth-card-content">
+    <img src="../../assets/header_img.png" alt="Header Image" class="img">
+    <div class="card-content">
+      <h1>User Login</h1>
+      <form class="login-form">
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" class="form-control" id="email" placeholder="Enter Email" required>
+        </div>
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" id="password" placeholder="Enter Password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary login" (click)="Login()">Login</button>
+        <br>
+        Create New Account !
+        <button type="submit" class="btn btn-primary register" (click)="Register()">Register</button>
+      </form>
+    </div>
+  </div>
+</mat-card>
+</div>
+</div>
+
+->login.component.scss:
+.auth-card {
+  max-width: 400px; /* Adjust this value to your desired width */
+  width: 100%;
+  margin: auto;
+  margin-top: 60px;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Add a border */
+  padding-bottom: 20px;
+  background-color:rgb(234, 234, 217);
+  overflow:hidden;
+}
+
+.auth-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  max-width: 100%;
+  max-height: 150px; /* Adjust this value to your desired height */
+  height: auto;
+  width: 100%;
+}
+
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end; /* Align contents to the end */
+  height: 100%; /* Ensure card content takes full height */
+}
+
+.login,
+.register {
+  margin-top: 1px!important; /* Add some spacing between buttons and other content */
+  margin: 0 auto; /* Align buttons to center horizontally */
+  display: block; /* Ensure each button takes full width */
+}
+
+.login-form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left; /* Align labels to the left */
+}
+
+.form-control {
+  width: 100%;
+  max-width: 300px; /* Adjust this value as needed */
+  margin-bottom: 10px; /* Add some spacing between input fields */
+}
+
+.bgimg{
+  background-image: url('../../assets/b1.jpg'); /* Use url() and specify the correct path */
+  background-size: cover; /* Adjust background properties as needed */
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100vh; /* Set the height to cover the entire viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contatiner-fluid{
+  overflow: hidden;
+  max-height: 100vh;
+}
+
+->login.component.ts:
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { RegisterComponent } from '../register/register.component';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
+export class LoginComponent {
+
+
+  email: string ="";
+  password: string ="";
+
+
+  constructor(private router: Router,private http: HttpClient) {}
+
+
+
+  Login() {
+    console.log(this.email);
+    console.log(this.password);
+
+    let bodyData = {
+      email: this.email,
+      password: this.password,
+    };
+
+        this.http.post("http://localhost:8085/ProfileBuilder/login", bodyData).subscribe(  (resultData: any) => {
+        console.log(resultData);
+
+        if (resultData.message == "Email not exits")
+        {
+
+          alert("Email not exits");
+
+
+        }
+        else if(resultData.message == "Login Success")
+
+         {
+          this.router.navigateByUrl('/home');
+        }
+        else
+        {
+          alert("Incorrect Email and Password not match");
+        }
+
+      });
+    }
+
+    Register(){
+      this.router.navigateByUrl('/register');
+    }
+
+}
+
+
+->register.component.html:
+<mat-card class="auth-card">
+  <div class="auth-card-content">
+    <img src="../../assets/header_img.png" alt="Header Image" class="img">
+    <div class="card-content">
+      <h1>User Registeration</h1>
+      <form class="login-form">
+        <div class="form-group">
+          <label>Employee Name:</label>
+          <input type="employee_name" [(ngModel)]="employee_name" [ngModelOptions]="{standalone: true}" class="form-control" id="employee_name" placeholder="Enter Employee Name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" class="form-control" id="email" placeholder="Enter Email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" id="password" placeholder="Enter Password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary register" (click)="register()">Register</button><br>
+        Account Exists?
+        <button type="submit" class="btn btn-primary login" (click)="login()">Login</button>
+        <br>
+
+
+      </form>
+    </div>
+  </div>
+</mat-card>
+
+->register.component.ts:
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
+})
+export class RegisterComponent {
+  employee_name: string ="";
+  email: string ="";
+  password: string ="";
+
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+    ){}
+
+  register()
+  {
+    let bodyData = {
+      "employee_name" : this.employee_name,
+      "email" : this.email,
+      "password" : this.password
+    };
+    this.http.post("http://localhost:8085/ProfileBuilder/register",bodyData,{responseType: 'text'}).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        // alert("Employee Registered Successfully");
+        this.router.navigateByUrl("/login");
+
+    });
+  }
+
+  login(){
+    this.router.navigateByUrl("/login");
+  }
+
+}
+
+->register.component.scss:
+.auth-card {
+  max-width: 400px; /* Adjust this value to your desired width */
+  width: 100%;
+  margin: auto;
+  margin-top: 60px;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Add a border */
+  padding-bottom: 20px;
+}
+
+.auth-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  max-width: 100%;
+  max-height: 150px; /* Adjust this value to your desired height */
+  height: auto;
+  width: 100%;
+}
+
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end; /* Align contents to the end */
+  height: 100%; /* Ensure card content takes full height */
+}
+
+.login,
+.register {
+  margin-top: 1px!important; /* Add some spacing between buttons and other content */
+  margin: 0 auto; /* Align buttons to center horizontally */
+  display: block; /* Ensure each button takes full width */
+}
+
+.login-form {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left; /* Align labels to the left */
+}
+
+.form-control {
+  width: 100%;
+  max-width: 300px; /* Adjust this value as needed */
+  margin-bottom: 10px; /* Add some spacing between input fields */
+}

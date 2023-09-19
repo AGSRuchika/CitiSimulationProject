@@ -1,0 +1,25 @@
+<app-header></app-header>
+<div class="full">
+  <div class="dashboard-container">
+    <br>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+      <div class="card-container">
+        <mat-card class="profile-card" (click)="create()">
+          <mat-card-title>Create Your User Profile</mat-card-title><br>
+          <mat-card-subtitle><li>Personal Details</li> <br><li>Education Details</li> <br><li>Work Experience </li><br><li>SKill & Extracurricular</li></mat-card-subtitle><br>
+          <button mat-button color="primary" class="button">Click Here!<mat-icon class="card-icon">person</mat-icon></button>
+        </mat-card>
+        <br>
+        <br>
+        <br>
+        <mat-card class="profile-card" (click)="viewprofile()" style="padding-left: 30px;padding-right: 30px;">
+          <mat-card-title>List Created Profiles</mat-card-title><br>
+          <mat-card-subtitle><li>Review created profiles</li><br><li>Limit Upto 10 Profiles</li></mat-card-subtitle><br>
+          <mat-card-subtitle><li>Ensure accuracy</li> <br><li> Save until deleted</li></mat-card-subtitle><br>
+          <button mat-button color="primary" class="button">Click Here!<mat-icon class="card-icon">person</mat-icon></button>
+        </mat-card>
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>
